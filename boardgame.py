@@ -13,13 +13,18 @@ try:
     print("id = " + curr_game["@objectid"])
     print()
 
-    for name in curr_game["name"]:
-        if "@primary" in name:
-            print(name['#text'])
+    if isinstance(curr_game["name"], list):
+        for name in curr_game["name"]:
+            if "@primary" in name:
+                print(name['#text'])
+    else:
+        print(curr_game["name"]['#text'])
+
     if curr_game["minplayers"] == curr_game["maxplayers"]:
         player_count = curr_game["maxplayers"]
     else:
         player_count = curr_game["minplayers"] + " - " + curr_game["maxplayers"]
+
     print("Player Count: " + player_count)
     print("Description: " + curr_game["description"])
     print("Average Rating: " + curr_game["statistics"]["ratings"]["average"] + "/10")
@@ -27,13 +32,18 @@ try:
     print()
 
     print("Categories = ", end="")
-    for category in curr_game["boardgamecategory"]:
-        print(category["#text"], end=", ")
+    if isinstance(curr_game["boardgamecategory"], list):
+        for category in curr_game["boardgamecategory"]:
+            print(category["#text"], end=", ")
+    else:
+        print(curr_game["boardgamecategory"]["#text"])
     print()
     print("Game Mechanics = ", end="")
-    for mechanic in curr_game["boardgamemechanic"]:
-
-        print(mechanic["#text"], end=", ")
+    if isinstance(curr_game["boardgamemechanic"], list):
+        for mechanic in curr_game["boardgamemechanic"]:
+            print(mechanic["#text"], end=", ")
+    else:
+        print(curr_game["boardgamemechanic"]["#text"])
     print()
 except requests.ConnectionError as e:
     print(e)
